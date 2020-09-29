@@ -18,3 +18,4 @@ AND EXTRACT(year FROM job_posting_date) = 2019
 AND canon_employer IS NOT NULL
 GROUP BY employer
 ORDER BY job_posting_count DESC
+LIMIT 100 --for the top 100 employers, remove for the full list 
