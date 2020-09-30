@@ -1,0 +1,135 @@
+---
+title: 'Verizon: Case Study'
+output: html_document
+---
+
+```{r setup}
+setwd("C:/Users/chari/Desktop/CSET/AI Hype Project/Case Studies")
+rm(list=ls())
+library(tidyverse)
+```
+
+
+What majors are the most in demand? (2019)
+```{r}
+verizon_major <- read_csv("verizon_major.csv")
+
+verizon_major <- arrange(verizon_major, desc(job_count))
+
+# Remove null majors
+verizon_major <- filter(verizon_major, !is.na(verizon_major$major))
+
+# Horizontal bar graph, take the top 10 majors
+ggplot(verizon_major[1:10,], aes(x = reorder(major, job_count), y = job_count)) + 
+  geom_bar(stat = "identity") + 
+  theme_gray(base_size = 15) +
+  labs(title = "Top 10 Majors in Demand at Verizon (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+```
+
+
+What kind of occupation fields is the company focusing on? What are the most popular majors for each occupation field?
+```{r}
+verizon_field <- read_csv("verizon_field.csv")
+
+verizon_field <- arrange(verizon_field, DETAIL, desc(job_count))
+
+# This helps set the order of the occupation fields in the final graph
+verizon_field$DETAIL <- factor(verizon_field$DETAIL, levels = c("C1", "C2", "PT", "CT"))
+
+# Bar graph of total job postings in each occupation field
+verizon_field %>%
+  group_by(DETAIL) %>%
+  summarise(total = sum(job_count)) %>%
+  ggplot(aes(x = DETAIL, y = total)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Total # of Job Postings by Verizon in Each Occupation Field (2019)",
+       x = "Occupation Field",
+       y = "Job Count")
+
+# Remove null majors
+verizon_field <- filter(verizon_field, !is.na(major))
+
+# Major breakdown, C1
+verizon_field %>%
+  filter(DETAIL == "C1") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for C1 Jobs by Verizon (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, C2
+verizon_field %>%
+  filter(DETAIL == "C2") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for C2 Jobs by Verizon (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, PT
+verizon_field %>%
+  filter(DETAIL == "PT") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for PT Jobs by Verizon (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, CT
+verizon_field %>%
+  filter(DETAIL == "CT") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for CT Jobs by Verizon (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+```
+
+
+What is their yearly trend, broken down by the occupation field?
+```{r}
+verizon_trend <- read_csv("verizon_trend.csv")
+
+ggplot(verizon_trend, aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by Verizon in Each Occupation Field",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", breaks = c( "C1", "C2", "PT", "CT"))
+```
+
+
+How does the trend for AI job postings compare to the total job postings?
+```{r}
+verizon_trend_total <- read_csv("verizon_trend_total.csv")
+
+# NA = all unrelated AI jobs
+# Replace NA with total number of jobs for each year
+verizon_trend_total %>%
+  group_by(year) %>%
+  mutate(job_count = ifelse(is.na(DETAIL), sum(job_count), job_count),
+         DETAIL = ifelse(is.na(DETAIL), "Total", DETAIL)) %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by Verizon",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", breaks = c("Total", "C1", "C2", "PT", "CT"))
+```
+
