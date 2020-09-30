@@ -1,0 +1,181 @@
+---
+title: 'FedEx: Case Study'
+output: html_document
+---
+
+```{r setup}
+setwd("C:/Users/chari/Desktop/CSET/AI Hype Project/Case Studies")
+rm(list=ls())
+library(tidyverse)
+```
+
+
+What majors are the most in demand? (2019)
+```{r}
+fedex_major <- read_csv("fedex_major.csv")
+
+fedex_major <- arrange(fedex_major, desc(job_count))
+
+# Remove null majors
+fedex_major <- filter(fedex_major, !is.na(fedex_major$major))
+
+# Horizontal bar graph, take the top 10 majors
+ggplot(fedex_major[1:10,], aes(x = reorder(major, job_count), y = job_count)) + 
+  geom_bar(stat = "identity") + 
+  theme_gray(base_size = 15) +
+  labs(title = "Top 10 Majors in Demand at FedEx (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+```
+
+
+What kind of occupation fields is the company focusing on? What are the most popular majors for each occupation field?
+```{r}
+fedex_field <- read_csv("fedex_field.csv")
+
+fedex_field <- arrange(fedex_field, DETAIL, desc(job_count))
+
+# This helps set the order of the occupation fields in the final graph
+fedex_field$DETAIL <- factor(fedex_field$DETAIL,
+                                levels = c("C1", "C2", "PT", "CT"))
+
+# Bar graph of total job postifedexs in each occupation field
+fedex_field %>%
+  group_by(DETAIL) %>%
+  summarise(total = sum(job_count)) %>%
+  ggplot(aes(x = DETAIL, y = total)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Total # of Job Postings by FedEx in Each Occupation Field (2019)",
+       x = "Occupation Field",
+       y = "Job Count")
+
+# Remove null majors
+fedex_field <- filter(fedex_field, !is.na(major))
+
+# Major breakdown, C1
+fedex_field %>%
+  filter(DETAIL == "C1") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for C1 Jobs by FedEx (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, C2
+fedex_field %>%
+  filter(DETAIL == "C2") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for C2 Jobs by FedEx (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, PT
+fedex_field %>%
+  filter(DETAIL == "PT") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for PT Jobs by FedEx (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+
+# Major breakdown, CT
+fedex_field %>%
+  filter(DETAIL == "CT") %>%
+  slice(1:5) %>%
+  ggplot(aes(x = reorder(major, job_count), y = job_count)) + geom_bar(stat = "identity") +
+  theme_gray(base_size = 15) +
+  labs(title = "Top 5 Majors in Demand for CT Jobs by FedEx (2019)",
+       x = "Major",
+       y = "Job Count") +
+  coord_flip()
+```
+
+
+What is their yearly trend, broken down by the occupation field?
+```{r}
+fedex_trend <- read_csv("fedex_trend.csv")
+
+ggplot(fedex_trend, aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by FedEx in Each Occupation Field",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", breaks = c("C1", "C2", "PT", "CT"))
+```
+
+
+How does the trend for AI job postings compare to the total job postings?
+```{r}
+fedex_trend_total <- read_csv("fedex_trend_total.csv")
+
+# NA = all unrelated AI jobs
+# Replace NA with total number of jobs for each year
+fedex_trend_total %>%
+  group_by(year) %>%
+  mutate(job_count = ifelse(is.na(DETAIL), sum(job_count), job_count),
+         DETAIL = ifelse(is.na(DETAIL), "Total", DETAIL)) %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by FedEx",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", breaks = c("Total", "C1", "C2", "PT", "CT"))
+```
+
+
+Examine what (if any) occupation codes are causing the huge increase in C2 hiring that occurs in 2014
+```{r}
+fedex_trend_c2_occ <- read_csv("fedex_trend_c2_occ_20132014.csv")
+
+
+# Adding a row for "Health and Safety Engineers, Except Mining Safety Engineers and Inspectors" in 2013 with 0 job counts and a row for "Economists" with 0 job counts in 2014 because the occupations are not in both years
+
+new_row <- data.frame(0, 2013, "C2", "Transportation and Warehousing", "FedEx", "Health and Safety Engineers, Except Mining Safety Engineers and Inspectors")
+names(new_row) <- c("job_count", "year", "DETAIL", "naics2_name", "canon_employer", "us_occ_name")
+fedex_trend_c2_occ <- rbind(fedex_trend_c2_occ, new_row)
+
+new_row <- data.frame(0, 2014, "C2", "Transportation and Warehousing", "FedEx", "Economists")
+names(new_row) <- c("job_count", "year", "DETAIL", "naics2_name", "canon_employer", "us_occ_name")
+fedex_trend_c2_occ <- rbind(fedex_trend_c2_occ, new_row)
+
+
+fedex_trend_c2_occ <- arrange(fedex_trend_c2_occ, year)
+
+# Calculate differences in job count between 2013 and 2014 (a negative number indicates there were less job postings for that occupation code in 2014)
+fedex_trend_c2_occ %>%
+  group_by(us_occ_name) %>%
+  mutate(diff = job_count - lag(job_count)) %>%
+  arrange(year, diff) %>%
+  filter(!is.na(diff)) %>%
+  pull(us_occ_name) -> diff_occ_list
+
+# This helps secure the order of the occupation codes in the final graph
+fedex_trend_c2_occ$us_occ_name <- factor(fedex_trend_c2_occ$us_occ_name,
+                                              levels = diff_occ_list)
+
+# Side-by-side bar graph
+fedex_trend_c2_occ %>%
+  arrange(year) %>%
+  ggplot(aes(x = us_occ_name, y = job_count, fill = as.factor(year))) +
+    geom_bar(stat = "identity", position = position_dodge2(reverse = TRUE)) +
+    theme_gray(base_size = 15) +
+    labs(title = "Change in AI Labor Demand for C2 Jobs by FedEx (2013-2014)",
+         subtitle = "Ordered from largest to smallest change",
+         x = "Occupation Codes",
+         y = "Job Count",
+         fill = "Year") +
+    coord_flip()
+```
+
