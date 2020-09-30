@@ -1,0 +1,441 @@
+---
+title: "Exploratory Data Analysis on Burning Glass Data v2"
+output: html_document
+---
+
+```{r}
+setwd("C:/Users/chari/Desktop/CSET/AI Hype Project/v2")
+rm(list=ls())
+library(tidyverse)
+```
+
+
+What degrees are most sought after for AI jobs in each sector?
+```{r}
+# 2019
+major_sector_19 <- read_csv("major_sector_2019.csv")
+
+# Remove null data
+major_sector_19 <- filter(major_sector_19, !is.na(major_sector_19$major))
+
+# Group by sector and order from highest job count to lowest
+major_sector_19 <- major_sector_19[order(major_sector_19$naics2_name, 
+                                   major_sector_19$job_count, 
+                                   decreasing = T),]
+
+# Calculate percentage, pick the top 5 majors
+major_sector_19 %>%
+  group_by(naics2_name) %>%
+  mutate(sum = sum(job_count), percentage = job_count/sum*100) %>%
+  group_by(naics2_name) %>%
+  slice(1:5) -> major_sector_19.final
+
+# Stacked bar graph
+ggplot(major_sector_19.final, aes(x = naics2_name, 
+                                  y = percentage, 
+                                  fill = major, 
+                                  label = major)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(position = position_stack(vjust = 0.5)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Major in Each Sector (2019)",
+       subtitle = "(Top 5 Majors)",
+       x = "Sector",
+       y = "% of Job Postings (in Each Sector)")
+
+
+
+# Aggregate
+major_sector_agg <- read_csv("major_sector_aggregate.csv")
+
+# Remove null data
+major_sector_agg <- filter(major_sector_agg, !is.na(major_sector_agg$major))
+
+# Group by sector and order from highest job count to lowest
+major_sector_agg <- major_sector_agg[order(major_sector_agg$naics2_name, 
+                                     major_sector_agg$job_count, 
+                                     decreasing = T),]
+
+# Calculate percentage, pick the top 5 majors
+major_sector_agg %>%
+  group_by(naics2_name) %>%
+  mutate(sum = sum(job_count), percentage = job_count/sum*100) %>%
+  group_by(naics2_name) %>%
+  slice(1:5) -> major_sector_agg.final
+
+# Stacked bar graph
+ggplot(major_sector_agg.final, aes(x = naics2_name, 
+                                   y = percentage, 
+                                   fill = major, 
+                                   label = major)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(position = position_stack(vjust = 0.5)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Major in Each Sector (2010-2020)",
+       subtitle = "(Top 5 Majors)",
+       x = "Sector",
+       y = "% of Job Postings (in Each Sector)")
+
+```
+
+
+What degrees are most sought after for each type of AI job?
+```{r}
+# 2019
+major_field_19 <- read_csv("major_field_2019.csv")
+
+# Remove null data
+major_field_19 <- filter(major_field_19, !is.na(major_field_19$major))
+
+# Group by field and order from highest job count to lowest
+major_field_19 <- major_field_19[order(major_field_19$DETAIL, 
+                                   major_field_19$job_count, 
+                                   decreasing = T),]
+
+# Calculate percentage and pick the top 5 majors
+major_field_19 %>%
+  group_by(DETAIL) %>%
+  mutate(sum = sum(job_count), percentage = job_count/sum*100) %>%
+  group_by(DETAIL) %>%
+  slice(1:5) -> major_field_19.final
+
+major_field_19.final$DETAIL <- factor(major_field_19.final$DETAIL,
+                                    levels = c("C1", "C2", "PT", "CT"))
+
+# Stacked bar graph
+ggplot(major_field_19.final, aes(x = DETAIL, 
+                           y = percentage, 
+                           fill = major, 
+                           label = major)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(position = position_stack(vjust = 0.5)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Major in Each AI Occupation Field (2019)",
+       subtitle = "(Top 5 Majors)",
+       x = "AI Occupation Field",
+       y = "% of Job Postings (in Each Field)")
+
+
+# Aggregate
+major_field_agg <- read_csv("major_field_aggregate.csv")
+
+# Remove null data
+major_field_agg <- filter(major_field_agg, !is.na(major_field_agg$major))
+
+# Group by sector and order from highest job count to lowest
+major_field_agg <- major_field_agg[order(major_field_agg$DETAIL,
+                                   major_field_agg$job_count, 
+                                   decreasing = T),]
+
+# Calculate percentage, pick the top 5 majors
+major_field_agg %>%
+  group_by(DETAIL) %>%
+  mutate(sum = sum(job_count), percentage = job_count/sum*100) %>%
+  group_by(DETAIL) %>%
+  slice(1:5) -> major_field_agg.final
+
+major_field_agg.final$DETAIL <- factor(major_field_agg.final$DETAIL,
+                                    levels = c("C1", "C2", "PT", "CT"))
+
+
+# Stacked bar graph
+ggplot(major_field_agg.final, aes(x = DETAIL, 
+                                  y = percentage, 
+                                  fill = major, 
+                                  label = major)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(position = position_stack(vjust = 0.5)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Major in Each AI Occupation Field (2010-2020)",
+       subtitle = "(Top 5 Majors)",
+       x = "AI Occupation Field",
+       y = "% of Job Postings (in Each Sector)")
+```
+
+
+How has labor demand for AI skills changed over the years in each sector?
+```{r}
+trend_sector <- read_csv("trend_sector.csv")
+
+# Line graph
+ggplot(trend_sector, aes(x = year, y = job_count, color = naics2_name)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by Sector",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("Sector")
+```
+
+
+How has labor demand for AI skills changed over the years for each type of AI job?
+```{r}
+trend_field <- read_csv("trend_field.csv")
+
+# Line graph
+ggplot(trend_field, aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+```
+
+
+Trend in AI labor demand over the years, analyze by sector and AI occupation field
+```{r}
+trend_sectorField <- read_csv("trend_sector-field.csv")
+trend_sectorField_total <- read_csv("trend_sector-Field_total.csv")
+# Calculate total job count for each sector in each year by adding job count from all the AI occupation fields + null (which represents all non-AI jobs)
+trend_sectorField_total %>%
+  arrange(naics2_name, year) %>%
+  group_by(naics2_name, year) %>%
+  mutate(job_count = ifelse(is.na(DETAIL), sum(job_count), job_count),
+         DETAIL = ifelse(is.na(DETAIL), "Total", DETAIL)) -> trend_sectorField_total
+
+
+# Line graph for Manufacturing
+trend_sectorField %>%
+  filter(naics2_name == "Manufacturing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Manufacturing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+
+# With total trend
+trend_sectorField_total %>%
+  filter(naics2_name == "Manufacturing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Manufacturing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", 
+                       breaks = c("Total","C1","C2","PT","CT"))
+
+
+# Line graph for Professional, Scientific, and Technical Services
+trend_sectorField %>%
+  filter(naics2_name == "Professional, Scientific, and Technical Services") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Professional, Scientific, and Technical Services)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+
+# With total trend
+trend_sectorField_total %>%
+  filter(naics2_name == "Professional, Scientific, and Technical Services") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Professional, Scientific, and Technical Services)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", 
+                       breaks = c("Total","C1","C2","PT","CT")) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
+
+
+# Line graph for Transportation and Warehousing
+trend_sectorField %>%
+  filter(naics2_name == "Transportation and Warehousing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Transportation and Warehousing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+
+# With total trend
+trend_sectorField_total %>%
+  filter(naics2_name == "Transportation and Warehousing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Transportation and Warehousing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", 
+                       breaks = c("Total","C1","C2","PT","CT")) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
+
+
+# Line graph for Real Estate and Rental and Leasing
+trend_sectorField %>%
+  filter(naics2_name == "Real Estate and Rental and Leasing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Real Estate and Rental and Leasing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+
+# With total trend
+trend_sectorField_total %>%
+  filter(naics2_name == "Real Estate and Rental and Leasing") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Real Estate and Rental and Leasing)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", 
+                       breaks = c("Total","C1","C2","PT","CT")) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
+
+# Examine the divergence of CT job trend from overall trend in Real Estate sector by looking if any particular occupation codes are causing it
+trend_realestate_ct_occ <- read_csv("trend_realestate_ct_occ_20152016.csv")
+
+trend_realestate_ct_occ <- arrange(trend_realestate_ct_occ, year)
+
+# Calculate differences in job count between 2015 and 2016 (a negative number indicates there were less job postings for that occupation code in 2016)
+trend_realestate_ct_occ %>%
+  group_by(us_occ_name) %>%
+  mutate(diff = job_count - lag(job_count)) %>%
+  arrange(year, diff) %>%
+  filter(!is.na(diff)) %>%
+  pull(us_occ_name) -> diff_occ_list
+
+# This helps secure the order of the occupation codes in the final graph
+trend_realestate_ct_occ$us_occ_name <- factor(trend_realestate_ct_occ$us_occ_name,
+                                              levels = diff_occ_list)
+
+# Side-by-side bar graph
+trend_realestate_ct_occ %>%
+  arrange(year) %>%
+  ggplot(aes(x = us_occ_name, y = job_count, fill = as.factor(year))) +
+    geom_bar(stat = "identity", position = position_dodge2(reverse = TRUE)) +
+    theme_gray(base_size = 15) +
+    labs(title = "Change in AI Labor Demand for CT Jobs in Real Estate (2015-2016)",
+         subtitle = "Ordered from largest to smallest change",
+         x = "Occupation Codes",
+         y = "Job Count",
+         fill = "Year") +
+    coord_flip()
+
+
+# Line graph for Information
+trend_sectorField %>%
+  filter(naics2_name == "Information") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Information)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field")
+
+# With total trend
+trend_sectorField_total %>%
+  filter(naics2_name == "Information") %>%
+  ggplot(aes(x = year, y = job_count, color = DETAIL)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Information)",
+       x = "Year",
+       y = "Job Count") +
+  scale_color_discrete("AI Occupation Field", 
+                       breaks = c("Total","C1","C2","PT","CT")) +
+  scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
+```
+
+
+How does labor market share change across sectors?
+```{r}
+emp_share <- read_csv("employer_share.csv")
+
+# Multiply by 100 to get the actual percentage
+emp_share$percentage <- emp_share$percentage*100
+
+# Group by sector and order from highest share to lowest share of job postings
+emp_share <- emp_share[order(emp_share$naics2_name,
+                             emp_share$percentage,
+                             decreasing = T),]
+
+# For the sole purpose of visualization, only keep the job posting data of top 3 employers in each sector
+emp_share %>%
+  group_by(naics2_name) %>%
+  mutate(rank = rank(desc(job_count))) %>%
+  mutate(job_count = ifelse(rank > 3, NA, job_count)) -> emp_share
+
+# Change the variable to a factor with levels so that the stacked bar graph can be ordered by share size
+emp_share$canon_employer <- factor(emp_share$canon_employer,
+                                   levels = emp_share$canon_employer)
+
+# Stacked bar graph
+ggplot(emp_share, aes(x = naics2_name, 
+                      y = percentage, 
+                      fill = canon_employer)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(aes(label = canon_employer), position = position_stack(vjust = 0.7)) +
+  geom_text(aes(label = job_count), position = position_stack(vjust = 0.3)) +
+  theme_gray(base_size = 15) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Employer in Each Sector (2019)",
+       subtitle = "(Employers w/ share > 1%)",
+       x = "Sector",
+       y = "% of Job Postings (in Each Sector)")
+```
+
+
+Do different sectors tend to hire in different locations?
+```{r}
+location_sector <- read_csv("location_sector.csv")
+
+location_sector <- location_sector[order(location_sector$naics2_name,
+                                         desc(location_sector$job_count)),]
+
+# Calculate percentage of job postings for each state in each sector and take the top 5
+location_sector %>%
+  group_by(naics2_name) %>%
+  mutate(sum = sum(job_count), percentage = job_count/sum*100) %>%
+  group_by(naics2_name) %>%
+  slice(1:5) -> location_sector
+
+# For the sole purpose of visualization, keep the job count information of only the top state in each sector
+location_sector %>%
+  group_by(naics2_name) %>%
+  mutate(rank = rank(desc(job_count))) %>%
+  mutate(job_count = ifelse(rank > 1, NA, job_count)) -> location_sector
+
+# Stacked bar graph
+ggplot(location_sector, aes(x = naics2_name, 
+                            y = percentage, 
+                            fill = canon_state)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(aes(label = canon_state), position = position_stack(vjust = 0.7)) +
+  geom_text(aes(label = job_count), position = position_stack(vjust = 0.3)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Location in Each Sector (2019)",
+       subtitle = "(Top 5 Locations)",
+       x = "Sector",
+       y = "% of Job Postings (in Each Sector)")
+```
+
