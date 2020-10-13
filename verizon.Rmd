@@ -30,23 +30,23 @@ ggplot(verizon_major[1:10,], aes(x = reorder(major, job_count), y = job_count)) 
 ```
 
 
-What kind of occupation fields is the company focusing on? What are the most popular majors for each occupation field?
+What kind of AI workforce categories is the company focusing on? What are the most popular majors for each category?
 ```{r}
 verizon_field <- read_csv("verizon_field.csv")
 
 verizon_field <- arrange(verizon_field, DETAIL, desc(job_count))
 
-# This helps set the order of the occupation fields in the final graph
+# This helps set the order of the categories in the final graph
 verizon_field$DETAIL <- factor(verizon_field$DETAIL, levels = c("C1", "C2", "PT", "CT"))
 
-# Bar graph of total job postings in each occupation field
+# Bar graph of total job postings in each category
 verizon_field %>%
   group_by(DETAIL) %>%
   summarise(total = sum(job_count)) %>%
   ggplot(aes(x = DETAIL, y = total)) + geom_bar(stat = "identity") +
   theme_gray(base_size = 15) +
-  labs(title = "Total # of Job Postings by Verizon in Each Occupation Field (2019)",
-       x = "Occupation Field",
+  labs(title = "Total # of Job Postings by Verizon in Each AI Workforce Category (2019)",
+       x = "AI Workforce Category",
        y = "Job Count")
 
 # Remove null majors
@@ -98,7 +98,7 @@ verizon_field %>%
 ```
 
 
-What is their yearly trend, broken down by the occupation field?
+What is their yearly trend, broken down by the AI workforce category?
 ```{r}
 verizon_trend <- read_csv("verizon_trend.csv")
 
@@ -106,10 +106,10 @@ ggplot(verizon_trend, aes(x = year, y = job_count, color = DETAIL)) +
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by Verizon in Each Occupation Field",
+  labs(title = "Trend in AI Labor Demand by Verizon in Each AI Workforce Category",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", breaks = c( "C1", "C2", "PT", "CT"))
+  scale_color_discrete("AI Workforce Category", breaks = c( "C1", "C2", "PT", "CT"))
 ```
 
 
@@ -127,9 +127,28 @@ verizon_trend_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by Verizon",
+  labs(title = "Hiring Trend by Verizon",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", breaks = c("Total", "C1", "C2", "PT", "CT"))
+  scale_color_discrete(breaks = c("Total", "C1", "C2", "PT", "CT")) +
+  theme(legend.title = element_blank())
 ```
 
+
+Check the share of job postings in each sector (2019)
+```{r}
+verizon_sector <- read_csv("verizon_sector.csv")
+
+# Make a pie chart of percentage share
+verizon_sector %>%
+  mutate(percentage = job_count/sum(job_count)*100) %>%
+  ggplot(aes(x = canon_employer, y = percentage, fill = naics2_name)) +
+    geom_bar(stat = "identity", position = "stack") +
+    coord_polar("y", start=0) +
+    theme_gray(base_size = 15) +
+    labs(title = "Percentage of Job Postings by Verizon in Each Sector (2019)",
+         y = "Percentage",
+         fill = "Sector") +
+    theme(axis.title.y=element_blank())
+  
+```
