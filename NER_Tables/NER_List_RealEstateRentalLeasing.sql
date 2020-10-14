@@ -2,7 +2,7 @@
 
 Combined query for NER lists of companies in the Real Estate and Rental and Leasing sector
 
-(Right now, the list only contains companies with above 1% job posting shares in the sector. Update when companies with above 0.5% shares have been added.)
+(Companies with above 0.5% job posting shares in the sector.)
 
 */
 
@@ -203,6 +203,137 @@ FROM
       (SELECT 'Lincoln Property Company' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
       FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
       WHERE REGEXP_CONTAINS(entity.value,r"\bLincoln Property Company\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Dotloop ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Dotloop' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bDotloop\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Koniag ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Koniag' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bKoniag\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Foundation")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Regional")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Alaska")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Netflix ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Netflix' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bNetflix\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Sunbelt Rentals ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Sunbelt Rentals' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bSunbelt Rentals\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Keller Williams Realty ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Keller Williams Realty' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bKeller Williams Realty\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Realogy ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Realogy' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bRealogy\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      AND NOT REGEXP_CONTAINS(entity.value,r"(?i)SOURCE")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Realogy Realogy")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Avis Budget Group ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Avis Budget Group' as company_name, 'Real Estate and Rental and Leasing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bAvis Budget Group\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
       GROUP BY name, company_name, naics2
       ORDER BY count DESC)
     GROUP BY count, name, company_name, naics2

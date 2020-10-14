@@ -2,7 +2,7 @@
 
 Combined query for NER lists of companies in the Manufacturing sector
 
-(Right now, the list only contains companies with above 1% job posting shares in the sector. Update when companies with above 0.5% shares have been added.)
+(Companies with above 0.5% job posting shares in the sector.)
 
 */
 
@@ -239,6 +239,191 @@ FROM
       (SELECT 'Siemens' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
       FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
       WHERE REGEXP_CONTAINS(entity.value,r"\bSiemens\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Pfizer ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Pfizer' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bPfizer\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Intel Corporation ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Intel Corporation' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bIntel\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Thermo Fisher Scientific Inc ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Thermo Fisher Scientific Inc' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bThermo Fisher Scientific\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Abbott Laboratories ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Abbott Laboratories' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bAbbott Laboratories\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Medtronic ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Medtronic' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bMedtronic\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Medtronic Medtronic")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Harris Corporation ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Harris Corporation' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bHarris Co") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"Profile")
+      AND NOT REGEXP_CONTAINS(entity.value,r"County")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Consulting")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Computer")
+      AND NOT REGEXP_CONTAINS(entity.value,r"Construction")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Hewlett-Packard ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Hewlett-Packard' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bHewlett-Packard\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Amgen ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Amgen' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bAmgen\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Danaher Corporation ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Danaher Corporation' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bDanaher\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
+      GROUP BY name, company_name, naics2
+      ORDER BY count DESC)
+    GROUP BY count, name, company_name, naics2
+    ORDER BY percentage DESC) ) )
+WHERE cumulative_percentage <= threshold_percent
+UNION ALL
+
+--- Johnson Controls Incorporated ---
+SELECT * FROM
+(SELECT *,  min(case when cumulative_percentage >= 0.9 then cumulative_percentage end) over (partition by company_name) as threshold_percent 
+FROM
+  (SELECT*, SUM(percentage) OVER (ORDER BY percentage DESC rows between unbounded preceding and current row) as cumulative_percentage
+  FROM
+    (SELECT *, (0.0+count)/SUM(count) OVER () AS percentage
+    FROM
+      (SELECT 'Johnson Controls' as company_name, 'Manufacturing' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
+      FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
+      WHERE REGEXP_CONTAINS(entity.value,r"\bJohnson Controls\b") AND entity.type = "Company" AND NOT REGEXP_CONTAINS(entity.value,r"(?i)Profile")
       GROUP BY name, company_name, naics2
       ORDER BY count DESC)
     GROUP BY count, name, company_name, naics2
