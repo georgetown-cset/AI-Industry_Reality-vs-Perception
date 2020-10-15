@@ -2,13 +2,18 @@
 
 ## Code
 
-* [getTopEmployers.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/getTopEmployers.sql) generates the tables for the top employers in different sectors
-* [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generatesthe list of NER values for companies of interest
-* [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage
-* [bg_eda_v2.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.sql) and [bg_eda_v2.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.Rmd) are the query and R markdown file, respectively, that produce various visualizations for the Burning Glass AI job posting data
+### Burning Glass
+* [getTopEmployers.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/getTopEmployers.sql) generates the tables for the top employers in different sectors.
+* [bg_eda_v2.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.sql) and [bg_eda_v2.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.Rmd) are the query and R markdown file, respectively, that produce various visualizations for the Burning Glass AI job posting data.
 * Case studies on top employers from each sector can be found here:
-  * Northrop Grumman: [ng.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ng.sql), [ng.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ng.Rmd)
-  * Deloitte: [deloitte.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/deloitte.sql), [deloitte.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/deloitte.Rmd)
-  * cbre: [cbre.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/cbre.sql), [cbre.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/cbre.Rmd)
-  * FedEx: [fedex.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/fedex.sql), [fedex.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/fedex.Rmd)
-  * Verizon: [verizon.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/verizon.sql), [verizon.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/verizon.Rmd)
+  * Northrop Grumman: [ng.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.sql), [ng.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.Rmd)
+  * Deloitte: [deloitte.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/deloitte.sql), [deloitte.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/deloitte.Rmd)
+  * cbre: [cbre.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.sql), [cbre.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.Rmd)
+  * FedEx: [fedex.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.sql), [fedex.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.Rmd)
+  * Verizon: [verizon.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.sql), [verizon.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.Rmd)
+* [company_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/company_list.sql) contains the code for different approaches we tested for compiling top employers lists (Top 90%, Top 25 companies, All companies w/ 0.5% share).
+
+### LexisNexis
+* [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generatesthe list of NER values for companies of interest.
+* [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage. It also contains the code template for creating a combined query with all the NER lists from companies. 
+* [NER_Tables](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/tree/master/NER_Tables) contains the combined queries for NER lists of companies in each sector.
