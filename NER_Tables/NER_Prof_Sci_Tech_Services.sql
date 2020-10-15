@@ -1,3 +1,9 @@
+/* 
+Combined query for NER lists of companies in the Information sector
+(Companies with above 0.5% job posting shares in the sector.)
+*/
+
+-- Deloitte -- 
 WITH deloitte_t AS
   (SELECT 'Deloitte' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
@@ -5,54 +11,63 @@ WITH deloitte_t AS
   GROUP BY name, company_name, naics2
   ORDER BY count DESC), 
   
+-- IBM --                                                                                                           --
   ibm_t AS (SELECT 'IBM' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value,r'\bIBM\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
-  
+
+-- Accenture --                                                                                                              
   accenture_t AS (SELECT 'Accenture' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bAccenture\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
 
+-- Booze Allen Hamilton --                                                                                                                           
   boozallen_t AS (SELECT 'Booz Allen Hamilton Inc.' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bBooz Allen Hamilton\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
-  
+ 
+-- Leidos --                                                                                                                                         
   leidos_t AS (SELECT 'Leidos' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bLeidos\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
 
+-- SAIC --                                                                                                                     
   saic_t AS (SELECT 'SAIC' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bSAIC\b') AND NOT REGEXP_CONTAINS(entity.value, r'\bMotor\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
   
+-- PricewaterhouseCoopers --                                                                                                                
   pwc_t AS (SELECT 'PricewaterhouseCoopers' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bPricewaterhouseCoopers\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC), 
-  
+ 
+-- Infosys --                                                                                                                                  
   infosys_t AS (SELECT 'Infosys' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bInfosys\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC),
   
+ -- CACI --                                                                                                                      
   caci_t AS (SELECT 'CACI' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bCACI\b') AND entity.type = "Company"
   GROUP BY name, company_name, naics2
   ORDER BY count DESC), 
-  
+                                                                                                                
+-- NTT Data --   
   ntt_t AS (SELECT 'NTT Data' as company_name, 'Professional, Scientific, and Technical Services' as naics2, COUNT(DISTINCT(duplicateGroupId)) AS count, entity.value AS name
   FROM gcp_cset_lexisnexis.raw_news CROSS JOIN UNNEST(sentiment.entities) AS entity 
   WHERE REGEXP_CONTAINS(entity.value, r'\bNTT Data\b') AND entity.type = "Company"
