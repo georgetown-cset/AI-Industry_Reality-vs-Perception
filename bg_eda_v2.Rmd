@@ -111,11 +111,11 @@ ggplot(major_field_19.final, aes(x = DETAIL,
                            label = major)) + 
   geom_bar(stat = "identity", color="black") +
   geom_text(position = position_stack(vjust = 0.5)) +
-  theme_gray(base_size = 10) +
+  theme_gray(base_size = 15) +
   theme(legend.position="none") +
-  labs(title = "AI Labor Demand Broken Down by Major in Each AI Occupation Field (2019)",
+  labs(title = "AI Labor Demand Broken Down by Major in Each AI Workforce Category (2019)",
        subtitle = "(Top 5 Majors)",
-       x = "AI Occupation Field",
+       x = "AI Workforce Category",
        y = "% of Job Postings (in Each Field)")
 
 
@@ -148,11 +148,11 @@ ggplot(major_field_agg.final, aes(x = DETAIL,
                                   label = major)) + 
   geom_bar(stat = "identity", color="black") +
   geom_text(position = position_stack(vjust = 0.5)) +
-  theme_gray(base_size = 10) +
+  theme_gray(base_size = 15) +
   theme(legend.position="none") +
-  labs(title = "AI Labor Demand Broken Down by Major in Each AI Occupation Field (2010-2020)",
+  labs(title = "AI Labor Demand Broken Down by Major in Each AI Workforce Category (2010-2020)",
        subtitle = "(Top 5 Majors)",
-       x = "AI Occupation Field",
+       x = "AI Workforce Category",
        y = "% of Job Postings (in Each Sector)")
 ```
 
@@ -182,10 +182,10 @@ ggplot(trend_field, aes(x = year, y = job_count, color = DETAIL)) +
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 ```
 
 
@@ -208,10 +208,10 @@ trend_sectorField %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Manufacturing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Manufacturing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 
 # With total trend
 trend_sectorField_total %>%
@@ -220,10 +220,10 @@ trend_sectorField_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Manufacturing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Manufacturing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", 
+  scale_color_discrete("AI Workforce Category", 
                        breaks = c("Total","C1","C2","PT","CT"))
 
 
@@ -234,10 +234,10 @@ trend_sectorField %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Professional, Scientific, and Technical Services)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Professional, Scientific, and Technical Services)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 
 # With total trend
 trend_sectorField_total %>%
@@ -246,10 +246,10 @@ trend_sectorField_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Professional, Scientific, and Technical Services)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Professional, Scientific, and Technical Services)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", 
+  scale_color_discrete("AI Workforce Category", 
                        breaks = c("Total","C1","C2","PT","CT")) +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
 
@@ -261,10 +261,10 @@ trend_sectorField %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Transportation and Warehousing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Transportation and Warehousing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 
 # With total trend
 trend_sectorField_total %>%
@@ -273,10 +273,10 @@ trend_sectorField_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Transportation and Warehousing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Transportation and Warehousing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", 
+  scale_color_discrete("AI Workforce Category", 
                        breaks = c("Total","C1","C2","PT","CT")) +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
 
@@ -288,10 +288,10 @@ trend_sectorField %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Real Estate and Rental and Leasing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Real Estate and Rental and Leasing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 
 # With total trend
 trend_sectorField_total %>%
@@ -300,10 +300,10 @@ trend_sectorField_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Real Estate and Rental and Leasing)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Real Estate and Rental and Leasing)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", 
+  scale_color_discrete("AI Workforce Category", 
                        breaks = c("Total","C1","C2","PT","CT")) +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
 
@@ -345,10 +345,10 @@ trend_sectorField %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Information)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Information)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field")
+  scale_color_discrete("AI Workforce Category", breaks = c("C1","C2","PT","CT"))
 
 # With total trend
 trend_sectorField_total %>%
@@ -357,10 +357,10 @@ trend_sectorField_total %>%
   geom_line() + geom_point(size = 5) +
   scale_x_continuous(breaks=c(2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
   theme_gray(base_size = 15) +
-  labs(title = "Trend in AI Labor Demand by AI Occupation Field (Information)",
+  labs(title = "Trend in AI Labor Demand by AI Workforce Category (Information)",
        x = "Year",
        y = "Job Count") +
-  scale_color_discrete("AI Occupation Field", 
+  scale_color_discrete("AI Workforce Category", 
                        breaks = c("Total","C1","C2","PT","CT")) +
   scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
 ```
@@ -407,7 +407,6 @@ ggplot(emp_share, aes(x = naics2_name,
 Do different sectors tend to hire in different locations?
 ```{r}
 location_sector <- read_csv("location_sector.csv")
-
 location_sector <- location_sector[order(location_sector$naics2_name,
                                          desc(location_sector$job_count)),]
 
@@ -437,5 +436,47 @@ ggplot(location_sector, aes(x = naics2_name,
        subtitle = "(Top 5 Locations)",
        x = "Sector",
        y = "% of Job Postings (in Each Sector)")
+```
+
+
+Do different sectors tend to hire in different locations? (Job count / 100,000 residents)
+```{r}
+location_sector <- read_csv("location_sector.csv")
+
+# State population age 18 and over, as of July 1, 2019
+state_populations <- read_csv("state_populations.csv")
+state_populations <- rename(state_populations, canon_state = state)
+
+# Merge the state population data into location_sector
+location_sector <- merge(location_sector, state_populations, by="canon_state")
+
+# Calculate job count per 100,000 residents
+location_sector %>%
+  mutate(relative_job_count = job_count/population*100000) -> location_sector
+
+# Order by sector and relative job count
+location_sector <- location_sector[order(location_sector$naics2_name,
+                                         desc(location_sector$relative_job_count)),]
+
+# Take the top 5 states in each sector
+location_sector %>%
+  group_by(naics2_name) %>%
+  slice(1:5) -> location_sector
+
+# Save the dataframe to create a table
+write.csv(location_sector, "location_sector_relative.csv")
+
+# Stacked bar graph
+ggplot(location_sector, aes(x = naics2_name, 
+                            y = relative_job_count, 
+                            fill = canon_state)) + 
+  geom_bar(stat = "identity", color="black") +
+  geom_text(aes(label = canon_state), position = position_stack(vjust = 0.5)) +
+  theme_gray(base_size = 10) +
+  theme(legend.position="none") +
+  labs(title = "AI Labor Demand Broken Down by Location in Each Sector (2019)",
+       subtitle = "(Top 5 Locations; Population age >18)",
+       x = "Sector",
+       y = "Job Postings / 100,000 residents")
 ```
 
