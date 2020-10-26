@@ -14,7 +14,7 @@
 * [company_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/company_list.sql) contains the code for different approaches we tested for compiling top employers lists (Top 90%, Top 25 companies, All companies w/ 0.5% share).
 
 ### LexisNexis
-* [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generatesthe list of NER values for companies of interest.
+* [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generates the list of NER values for companies of interest.
 * [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage. It also contains the code template for creating a combined query with all the NER lists from companies. 
 * [NER_Tables](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/tree/master/NER_Tables) contains the combined queries for NER lists of companies in each sector.
 * [raw_count_sentiment_score.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/raw_count_sentiment_score.sql) has the query for analyzing the raw count of AI/ML + company mentions and the average sentiment/entity scores over the years for each company.
