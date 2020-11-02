@@ -4,7 +4,7 @@ Saved as major_sector_2019
 */
 SELECT COUNT(DISTINCT job_id) as job_count, naics2_name, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 AND EXTRACT(YEAR FROM job_posting_date) = 2019
 GROUP BY naics2_name, major;
@@ -14,18 +14,18 @@ Saved as major_sector_aggregate
 */
 SELECT COUNT(DISTINCT job_id) as job_count, naics2_name, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 GROUP BY naics2_name, major;
 
 
 /*
-What degrees are most sought after for each type of AI job (field)? (2019)
+What degrees are most sought after for each AI workforce category? (2019)
 Saved as major_field_2019
 */
 SELECT COUNT(DISTINCT job_id) as job_count, DETAIL, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 AND EXTRACT(YEAR FROM job_posting_date) = 2019
 GROUP BY DETAIL, major;
@@ -35,7 +35,7 @@ Saved as major_field_aggregate
 */
 SELECT COUNT(DISTINCT job_id) as job_count, DETAIL, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 GROUP BY DETAIL, major;
 
@@ -52,7 +52,7 @@ ORDER BY year DESC;
 
 
 /*
-How has labor demand for AI skills changed over the years for each type of AI job (field)?
+How has labor demand for AI skills changed over the years for each AI workforce category?
 Saved as trend_field
 */
 SELECT COUNT(DISTINCT job_id) as job_count, EXTRACT(YEAR FROM job_posting_date) as year, DETAIL
@@ -63,7 +63,7 @@ ORDER BY year DESC;
 
 
 /*
-Trend in AI labor demand over the years, analyze by sector and AI occupation field
+Trend in AI labor demand over the years, analyze by sector and AI workforce category
 Saved as trend_sector-field
 */
 SELECT COUNT(DISTINCT job_id) as job_count, EXTRACT(YEAR FROM job_posting_date) as year, DETAIL, naics2_name
