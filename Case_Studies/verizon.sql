@@ -12,7 +12,7 @@ Saved as verizon_major
 */
 SELECT COUNT(DISTINCT job_id) as job_count, canon_employer, naics2_name, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 AND EXTRACT(YEAR FROM job_posting_date) = 2019
 AND canon_employer = "Verizon Communications Incorporated"
@@ -24,7 +24,7 @@ Saved as verizon_field
 */
 SELECT COUNT(DISTINCT job_id) as job_count, DETAIL, canon_employer, naics2_name, standard_major as major FROM
 (SELECT * FROM `gcp-cset-projects.burning_glass.US_AI_framework_postings_wDETAIL`
-LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id, record_country, import_time))
+LEFT JOIN `gcp-cset-projects.burning_glass.major` USING(job_id))
 WHERE naics2_name IN ('Manufacturing', 'Professional, Scientific, and Technical Services', 'Transportation and Warehousing', 'Real Estate and Rental and Leasing', 'Information') 
 AND EXTRACT(YEAR FROM job_posting_date) = 2019
 AND canon_employer = "Verizon Communications Incorporated"
