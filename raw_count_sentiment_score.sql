@@ -24,7 +24,7 @@ total_yearly_counts AS (
 -- ai_table: Inner joining ai_articles, which contains all articles with AI/ML mentions, with the sector NER table based on the NERs, so now each company is associated with AI articles that mention it as well as its NERs (that we selected)
 ai_table AS (
   SELECT id, duplicateGroupId, content, pubdate, entity, sentiment_score, b.company_name, b.naics2
-  FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
+  FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
   JOIN `gcp-cset-projects.ai_hype.information_sector` b ON entity.value = b.name
   WHERE language = "English"
 ),
