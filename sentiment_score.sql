@@ -6,7 +6,7 @@ WITH
 -- ai_table: Joining ai_articles, which contains all articles with AI/ML mentions, with the sector NER table based on the NERs, so now each company is associated with AI articles that mention it as well as its NERs (that we selected)
 ai_table AS (
   SELECT id, duplicateGroupId, content, pubdate, entity, sentiment_score, b.company_name, b.naics2
-  FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
+  FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
   JOIN `gcp-cset-projects.ai_hype.transportation_sector` b ON entity.value = b.name
 )
 SELECT company_name, naics2, EXTRACT(year FROM pubdate) AS pubyear, AVG(sentiment_score) AS sentiment_score_avg, AVG(entity_score) AS entity_score_avg
@@ -32,7 +32,7 @@ FROM
   FROM 
     (SELECT pubdate, entity.score AS entity_score, CAST(sentiment_score AS FLOAT64) AS sentiment_score, 
     RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank
-    FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity
+    FROM `gcp-cset-projects.ai_hypes.ai_articles` CROSS JOIN UNNEST(entities) AS entity
     WHERE language = "English"
     AND regexp_contains(content, r"(?i)\btransportation\b") ) ---Change to "manufacturing" or "real estate" as necessary
   WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020))
