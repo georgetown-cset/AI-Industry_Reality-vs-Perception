@@ -17,6 +17,7 @@
 * [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generates the list of NER values for companies of interest.
 * [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage. It also contains the code template for creating a combined query with all the NER lists from companies. 
 * [NER_Tables](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/tree/master/NER_Tables) contains the combined queries for NER lists of companies in each sector.
+* [AI_Articles.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/AI_Articles.sql) genereates the ai_articles table referenced in LN queries.
 * [raw_count_sentiment_score.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/raw_count_sentiment_score.sql) has the query for analyzing the raw count of AI/ML + company mentions and the average sentiment/entity scores over the years for each company.
 * [sentiment_score.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/sentiment_score.sql) contains different analyses that were conducted on sentiment and entity scores.
 * [ln_sector.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ln_sector.sql) is the query for compiling the raw count and sentiment/entity score summary statistics for each sector over the years.
