@@ -6,8 +6,8 @@ options for NAICS 2: Information, Manufacturing, Transportation and Warehousing,
 
 options for AI occupation classification: C1, C2, PT, CT
 
-Below is an example query using Transportation and Warehousing with the entire all AI occupations (`gcp-cset-projects.burning_glass.US_AI_framework_wDETAIL`), 
-change the table for different occupation classifications and change the naics2_name for different naics 2 options. 
+Below is an example query using Transportation and Warehousing with all AI occupations (`gcp-cset-projects.burning_glass.US_AI_framework_wDETAIL`). 
+Change the table for different occupation classifications and change the naics2_name for different naics 2 options. 
 
 */
 
