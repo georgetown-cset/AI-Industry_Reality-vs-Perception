@@ -16,7 +16,7 @@ FROM
   CAST(sentiment_score AS FLOAT64) AS sentiment_score, 
   RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank
   FROM ai_table)
-WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2021)
+WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020)
 GROUP BY company_name, naics2, pubyear
 ORDER BY company_name, naics2, pubyear DESC;
 
