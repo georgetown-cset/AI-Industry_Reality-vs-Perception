@@ -32,7 +32,7 @@ FROM
   FROM 
     (SELECT pubdate, entity.score AS entity_score, CAST(sentiment_score AS FLOAT64) AS sentiment_score, 
     RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank
-    FROM `gcp-cset-projects.ai_hypes.ai_articles` CROSS JOIN UNNEST(entities) AS entity
+    FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(entities) AS entity
     WHERE language = "English"
     AND regexp_contains(content, r"(?i)\btransportation\b") ) ---Change to "manufacturing" or "real estate" as necessary
   WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020))
