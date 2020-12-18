@@ -12,6 +12,7 @@
   * FedEx: [fedex.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.sql), [fedex.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.Rmd)
   * Verizon: [verizon.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.sql), [verizon.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.Rmd)
 * [company_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/company_list.sql) contains the code for different approaches we tested for compiling the list of top employers in each sector (top 90%, top 25 companies, all companies w/ above 0.5% share).
+* [check_naics2.sql](https://github.com/georgetown-cset/AI-Industry_Reality-vs-Perception/blob/master/check_naics2.sql) checks each company's share of job postings in different sectors.
 
 ### LexisNexis
 * [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generates the list of NER values for companies of interest.
