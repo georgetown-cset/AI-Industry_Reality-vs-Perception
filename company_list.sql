@@ -36,6 +36,7 @@ WHERE rank <= 25;
 
 /*
 Top employers in each sector with job posting share above 0.5%
+This approach was used in the end to compile the list of top employers in each sector.
 */
 WITH t1 AS 
   (SELECT naics2_name, canon_employer, COUNT(DISTINCT job_id) as job_count
