@@ -1,5 +1,5 @@
 /*
-Raw count and summary statistics on entity/sentiment scores per year for each sector
+Raw count and summary statistics on sentiment scores per year for each sector
 */
 
 WITH
@@ -22,10 +22,11 @@ total_yearly_counts AS (
 ),
 -- ai_table: Joining ai_articles, which contains all articles with AI/ML mentions, with the sector NER table based on the NERs, so now each company is associated with AI articles that mention it as well as its NERs (that we selected)
 ai_table AS (
-  SELECT id, duplicateGroupId, pubdate, entity, sentiment_score, b.company_name, b.naics2
-  FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
+  SELECT id, duplicateGroupId, pubdate, entity, sentiment.score AS sentiment_score, b.company_name, b.naics2, 
+  RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank
+  FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(sentiment.entities) AS entity 
   JOIN `gcp-cset-projects.ai_hype.information_sector` b ON entity.value = b.name --Change as needed
-  WHERE language = "English"
+  WHERE (language = "English") AND (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020)
   AND b.naics2 = "Information" --Change as needed
 )
 
@@ -36,9 +37,8 @@ FROM
   -- STEP 1: Get count of all articles containing our terms of interest
   (SELECT EXTRACT(year FROM pubdate) AS pubyear, COUNT(duplicateGroupId) AS num_articles, naics2 
   FROM
-    (SELECT duplicateGroupId, pubdate, RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank, entity.value, naics2
+    (SELECT duplicateGroupId, pubdate, naics2
     FROM ai_table)
-  WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020)
   GROUP BY pubyear, naics2 
   ORDER BY pubyear DESC)
 AS ai_counts
@@ -53,20 +53,17 @@ JOIN
 (SELECT MAX(num_articles) AS maxcount FROM total_yearly_counts) AS max_of_total_yearly_counts
 ON TRUE
 
---- STEP 4: Join the average sentiment score and average entity sentiment score for each year and for each company
+--- STEP 4: Join the summary statistics for each year and for each sector
 JOIN
 (
 SELECT naics2, EXTRACT(year FROM pubdate) AS pubyear, 
 AVG(sentiment_score) AS s_avg, STDDEV(sentiment_score) AS s_std_dev, MIN(sentiment_score) AS s_min, s_median, MAX(sentiment_score) AS s_max
 FROM
-  (SELECT PERCENTILE_CONT(sentiment_score, 0.5) OVER (PARTITION BY EXTRACT(year FROM pubdate)) AS s_median, sentiment_score,
-  naics2, pubdate
+  (SELECT *, PERCENTILE_CONT(sentiment_score, 0.5) OVER (PARTITION BY EXTRACT(year FROM pubdate)) AS s_median
   FROM
     (SELECT naics2, pubdate,
-    CAST(sentiment_score AS FLOAT64) AS sentiment_score, 
-    RANK() OVER (PARTITION BY duplicateGroupId ORDER BY id ASC) rank
-    FROM ai_table)
-  WHERE (rank = 1) AND (EXTRACT(year FROM pubdate) > 2010) AND (EXTRACT(year from pubdate) < 2020) )
+    CAST(sentiment_score AS FLOAT64) AS sentiment_score
+    FROM ai_table) )
 GROUP BY naics2, pubyear, s_median
 ORDER BY naics2, pubyear DESC) AS sentiment_scores
 ON sentiment_scores.naics2 = ai_counts.naics2 AND sentiment_scores.pubyear = ai_counts.pubyear
