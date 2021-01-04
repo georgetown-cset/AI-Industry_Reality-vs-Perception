@@ -3,7 +3,6 @@
 ## Code
 
 ### Burning Glass
-* [getTopEmployers.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/getTopEmployers.sql) generates the tables for the top employers in different sectors.
 * [bg_eda_v2.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.sql) and [bg_eda_v2.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/bg_eda_v2.Rmd) are the query and R markdown file, respectively, that produce various visualizations for the Burning Glass AI job posting data.
 * Case studies on top employers from each sector can be found here:
   * Northrop Grumman: [ng.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.sql), [ng.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.Rmd)
