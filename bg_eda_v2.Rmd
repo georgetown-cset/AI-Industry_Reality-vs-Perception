@@ -189,11 +189,11 @@ ggplot(trend_field, aes(x = year, y = job_count, color = DETAIL)) +
 ```
 
 
-Trend in AI labor demand over the years, analyze by sector and AI occupation field
+Trend in AI labor demand over the years, analyze by sector and AI workforce category
 ```{r}
 trend_sectorField <- read_csv("trend_sector-field.csv")
 trend_sectorField_total <- read_csv("trend_sector-Field_total.csv")
-# Calculate total job count for each sector in each year by adding job count from all the AI occupation fields + null (which represents all non-AI jobs)
+# Calculate total job count for each sector in each year by adding job count from all the AI workforce categories + null (which represents all non-AI jobs)
 trend_sectorField_total %>%
   arrange(naics2_name, year) %>%
   group_by(naics2_name, year) %>%
