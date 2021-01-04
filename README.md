@@ -14,9 +14,10 @@
 * [check_naics2.sql](https://github.com/georgetown-cset/AI-Industry_Reality-vs-Perception/blob/master/check_naics2.sql) checks each company's share of job postings in different sectors.
 
 ### LexisNexis
-* [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generates the list of NER values for companies of interest.
-* [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage. It also contains the code template for creating a combined query with all the NER lists from companies. 
-* [NER_Tables](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/tree/master/NER_Tables) contains the combined queries for NER lists of companies in each sector.
+* Entity Resolution
+  * [findNERS.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/findNERs.sql) generates the list of NER values for companies of interest.
+  * [ner_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ner_list.sql) takes the list of NER values for a company and calculates count, percentage, and cumulative percentage. It also contains the code template for creating a combined query with all the NER lists from companies. 
+  * [NER_Tables](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/tree/master/NER_Tables) contains the combined queries for NER lists of companies in each sector.
 * [AI_Articles.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/AI_Articles.sql) genereates the ai_articles table referenced in LN queries.
 * [ln_sector.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/ln_sector.sql) is the query for compiling the raw count and sentiment score summary statistics for each sector over the years, and [ln_sector.Rmd](https://github.com/georgetown-cset/AI-Industry_Reality-vs-Perception/blob/master/ln_sector.Rmd) is the R markdown file for visualizing the data.
 * [sentiment_score_distribution.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/sentiment_score_distribution.sql) analyzes the distribution of sentiment scores according to the classifications "Positive", "Neutral", and "Negative" in all articles mentioning the AI keywords.
