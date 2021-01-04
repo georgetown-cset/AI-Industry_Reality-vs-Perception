@@ -1,0 +1,88 @@
+---
+title: "LN Case Studies"
+output: html_document
+---
+
+```{r}
+setwd("C:/Users/chari/Desktop/CSET/AI Hype Project/Case Studies")
+rm(list=ls())
+library(tidyverse)
+```
+
+```{r}
+case_studies <- read_csv("ln_case_studies.csv")
+```
+
+
+Normalized Raw Count of Articles Mentioning AI/ML and Company Name
+```{r}
+ggplot(case_studies, aes(x = pubyear, y = normalized_ai_count, color = company_name)) + 
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Deloitte and Verizon are mentioned the most frequently with AI/ML topics",
+       x = "Year",
+       y = "Normalized Raw Count of Articles") +
+  scale_color_discrete("Company")
+```
+
+
+Median Sentiment Scores Over the Years
+```{r}
+ggplot(case_studies) + 
+  geom_line(aes(x = pubyear, y = s_median, color = company_name)) + 
+  geom_point(aes(x = pubyear, y = s_median, color = company_name), size = 5) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Median Sentiment Scores Over the Years",
+       x = "Year",
+       y = "Sentiment Score") +
+  scale_color_discrete("Company")
+```
+
+
+Max and Min Sentiment Scores Over the Years
+```{r}
+ggplot(case_studies) + 
+  geom_line(aes(x = pubyear, y = s_max, color = company_name)) +
+  geom_point(aes(x = pubyear, y = s_max, color = company_name), size = 3) +
+  geom_line(aes(x = pubyear, y = s_min, color = company_name)) +
+  geom_point(aes(x = pubyear, y = s_min, color = company_name), size = 3) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Max and Min Sentiment Scores Over the Years",
+       x = "Year",
+       y = "Sentiment Score") +
+  scale_color_discrete("Company")
+```
+
+
+Median Entity Scores Over the Years
+```{r}
+ggplot(case_studies) + 
+  geom_line(aes(x = pubyear, y = e_median, color = company_name)) + 
+  geom_point(aes(x = pubyear, y = e_median, color = company_name), size = 5) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Median Entity Scores Over the Years",
+       x = "Year",
+       y = "Entity Score") +
+  scale_color_discrete("Company")
+```
+
+
+Max and Min Entity Scores Over the Years
+```{r}
+ggplot(case_studies) + 
+  geom_line(aes(x = pubyear, y = e_max, color = company_name)) +
+  geom_point(aes(x = pubyear, y = e_max, color = company_name), size = 3) +
+  geom_line(aes(x = pubyear, y = e_min, color = company_name)) +
+  geom_point(aes(x = pubyear, y = e_min, color = company_name), size = 3) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Max and Min Entity Scores Over the Years",
+       x = "Year",
+       y = "Entity Score") +
+  scale_color_discrete("Company")
+```
+
