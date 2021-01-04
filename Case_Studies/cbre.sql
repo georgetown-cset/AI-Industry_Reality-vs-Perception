@@ -1,6 +1,6 @@
 /*
 
-Case Study 3: cbre
+Case Study 3: CBRE
 
 */
 
@@ -86,8 +86,8 @@ total_yearly_counts AS (
 ),
 -- ai_table: Joining ai_articles, which contains all articles with AI/ML mentions, with the sector NER table based on the NERs, so now each company is associated with AI articles that mention it as well as its NERs (that we selected)
 ai_table AS (
-  SELECT id, duplicateGroupId, content, pubdate, entity, sentiment_score, b.company_name, b.naics2
-  FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
+  SELECT id, duplicateGroupId, content, pubdate, entity, sentiment.score AS sentiment_score, b.company_name, b.naics2
+  FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(sentiment.entities) AS entity 
   JOIN `gcp-cset-projects.ai_hype.leasing_sector` b ON entity.value = b.name
   WHERE language = "English"
   AND b.company_name = "CBRE"
@@ -145,8 +145,8 @@ Looking at CBRE AI articles with max/min entity scores overall
 */
 WITH
 cbre_ai_table AS (
-  SELECT id, duplicateGroupId, content, pubdate, entity, sentiment_score, b.company_name, b.naics2
-  FROM `gcp-cset-projects.gcp_cset_lexisnexis.ai_articles` CROSS JOIN UNNEST(entities) AS entity 
+  SELECT id, duplicateGroupId, content, pubdate, entity, sentiment.score AS sentiment_score, b.company_name, b.naics2
+  FROM `gcp-cset-projects.ai_hype.ai_articles` CROSS JOIN UNNEST(sentiment.entities) AS entity 
   JOIN `gcp-cset-projects.ai_hype.leasing_sector` b ON entity.value = b.name
   WHERE language = "English"
   AND b.company_name = "CBRE"
