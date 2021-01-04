@@ -1,0 +1,57 @@
+---
+title: "LN Sector Analysis"
+output: html_document
+---
+
+```{r}
+setwd("C:/Users/chari/Desktop/CSET/AI Hype Project/v2")
+rm(list=ls())
+library(tidyverse)
+```
+
+```{r}
+ln_sector <- read_csv("ln_sector.csv")
+```
+
+
+Normalized Raw Count of Articles Mentioning AI/ML and Company Name Over the Years in Each Sector
+```{r}
+ggplot(ln_sector, aes(x = pubyear, y = normalized_ai_count, color = naics2)) + 
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  labs(title = "Normalized Raw Count of Articles Mentioning AI/ML and Company Name",
+       x = "Year",
+       y = "Count") +
+  scale_color_discrete("Sector") +
+  theme_gray(base_size = 15)
+```
+
+
+Max and Min Sentiment Scores Over the Years in Each Sector
+```{r}
+ggplot(ln_sector) + 
+  geom_line(aes(x = pubyear, y = s_max, color = naics2)) + 
+  geom_point(size = 3, aes(x = pubyear, y = s_max, color = naics2)) +
+  geom_line(aes(x = pubyear, y = s_min, color = naics2)) +
+  geom_point(size = 3, aes(x = pubyear, y = s_min, color = naics2)) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Max and Min Sentiment Scores Over the Years",
+       x = "Year",
+       y = "Sentiment Score") +
+  scale_color_discrete("Sector")
+```
+
+
+Median Sentiment Scores Over the Years in Each Sector
+```{r}
+ggplot(ln_sector, aes(x = pubyear, y = s_median, color = naics2)) +
+  geom_line() + geom_point(size = 5) +
+  scale_x_continuous(breaks=c(2011,2012,2013,2014,2015,2016,2017,2018,2019)) +
+  theme_gray(base_size = 15) +
+  labs(title = "Median Sentiment Scores Over the Years",
+       x = "Year",
+       y = "Sentiment Score") +
+  scale_color_discrete("Sector")
+```
+
