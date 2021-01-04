@@ -7,7 +7,7 @@
 * Case studies on top employers from each sector can be found here:
   * Northrop Grumman: [ng.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.sql), [ng.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/ng.Rmd)
   * Deloitte: [deloitte.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/deloitte.sql), [deloitte.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/deloitte.Rmd)
-  * cbre: [cbre.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.sql), [cbre.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.Rmd)
+  * CBRE: [cbre.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.sql), [cbre.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/cbre.Rmd)
   * FedEx: [fedex.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.sql), [fedex.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/fedex.Rmd)
   * Verizon: [verizon.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.sql), [verizon.Rmd](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/Case_Studies/verizon.Rmd)
 * [company_list.sql](https://github.com/georgetown-cset/AI-Hype-vs-Hiring/blob/master/company_list.sql) contains the code for different approaches we tested for compiling the list of top employers in each sector (top 90%, top 25 companies, all companies w/ above 0.5% share).
